@@ -1,5 +1,5 @@
 import { init, fetchQuery } from "@airstack/node";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import axios from "axios";
 
 const apiKey = process.env.AIRSTACK_API_KEY;
