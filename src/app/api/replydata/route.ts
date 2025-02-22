@@ -17,13 +17,13 @@ query GetMostRecentCastHashByFid {
 }
 `;
 
-export async function GET(req: NextRequest) {
+export async function GET() {
 
 
 
   try {
     const [userData] = await Promise.all([fetchQuery(GetMostRecentCastHashByFid)]);
-    const allowancesApiUrl = `https://api.degen.tips/airdrop2/allowances?fid=268438`;
+    const allowancesApiUrl = `https://api.degen.tips/airdrop2/allowances?fid=431`;
 
     const allowancesResponse = await axios.get(allowancesApiUrl)
     const allowance =  allowancesResponse.data[0].remaining_tip_allowance;

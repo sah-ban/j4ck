@@ -5,8 +5,6 @@ import sdk, {
   // FrameNotificationDetails,
  type Context,
 } from "@farcaster/frame-sdk";
-import Link from 'next/link';
-import Image from 'next/image';
 
 export default function DemoN(
   { title }: { title?: string } = { title: "See Who Joined Around You" }
@@ -44,7 +42,7 @@ export default function DemoN(
     image?: string; // ✅ Updated: image as string
     url: string;
   }
-  let count: number = new Date().getDate()+ 503
+  const count: number = new Date().getDate()+ 503
 
   const TodaysMint = `https://highlight.xyz/mint/base:0x3595491A2ecD658Ab249AcBd15F649b1D2B7cb3a:9c9d6dd7e82d0217d6aee15dbabc223b/t/${count}`; // 🔗 Replace with your desired URL
   const [metadata, setMetadata] = useState<Metadata | null>(null);
@@ -70,9 +68,7 @@ export default function DemoN(
         } else {
           setError('Failed to fetch metadata. Please check the URL.');
         }
-      } catch (err) {
-        setError('An error occurred while fetching metadata.');
-      } finally {
+      }  finally {
         setLoading(false);
       }
     };
@@ -91,7 +87,7 @@ export default function DemoN(
   
   
   // Declare a variable outside so it can be updated
-  let today = getFormattedDate();
+  const today = getFormattedDate();
 
   const cast = useCallback((today: string, count: number) => {
     try {
@@ -220,7 +216,7 @@ if (context?.user.fid === 268438 || context?.user.fid === 431)
   function Allowed( ) {
     return (
 <div className="flex flex-col items-center justify-center min-h-screen bg-gray-800 ">
-<h1 className="text-2xl font-bold mb-4 text-center text-white">Todays Mint</h1>
+<h1 className="text-2xl font-bold mb-4 text-center text-white">Today&apos;s Mint</h1>
 
 <div className="p-3  mx-3 max-w-xl mx-auto shadow-lg rounded-2xl bg-[#20142c] text-white">
 

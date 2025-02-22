@@ -35,8 +35,8 @@ parentCastId: {
   fid: 268438,
   hash:byteArray,
 }, 
- mentions: [], mentionsPositions: [] ,channel_id: "test"},
-      body:{ channel_id: "test"},
+ mentions: [], mentionsPositions: [] },
+
       fid: 545039,
       signerPrivateKey,
     }).then(response => console.log(response.data))
