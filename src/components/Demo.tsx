@@ -5,6 +5,9 @@ import sdk, {
   // FrameNotificationDetails,
  type Context,
 } from "@farcaster/frame-sdk";
+import { Input } from "../components/ui/input"
+import { Label } from "~/components/ui/label";
+
 
 export default function DemoN(
   { title }: { title?: string } = { title: "See Who Joined Around You" }
@@ -13,18 +16,6 @@ export default function DemoN(
   const [context, setContext] = useState<Context.FrameContext>();
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
 
-  const [isCasted, setIsCasted] = useState(false);
-  const [isTipped, setIsTipped] = useState(false);
-
-
-  const handleCast = () => {
-    cast(today, count);
-    setIsCasted(true);
-  };
-  const handleTip = () => {
-    tip(typedAllo, typedHash);
-    setIsTipped(true);
-  };
   useEffect(() => {
     const load = async () => {
       setContext(await sdk.context);
@@ -36,42 +27,41 @@ export default function DemoN(
     }
   }, [isSDKLoaded]);
 
-  interface Metadata {
-    title: string;
-    description?: string;
-    image?: string; // ✅ Updated: image as string
-    url: string;
-  }
-  const count: number = new Date().getDate()+ 503
-
-  const TodaysMint = `https://highlight.xyz/mint/base:0x3595491A2ecD658Ab249AcBd15F649b1D2B7cb3a:9c9d6dd7e82d0217d6aee15dbabc223b/t/${count}`; // 🔗 Replace with your desired URL
-  const [metadata, setMetadata] = useState<Metadata | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  // interface Metadata {
+  //   title: string;
+  //   description?: string;
+  //   image?: string; // ✅ Updated: image as string
+  //   url: string;
+  // }
 
 
-    const fetchMetadata = async () => {
-      setLoading(true);
-      setError(null);
-      setMetadata(null);
+  // const [metadata, setMetadata] = useState<Metadata | null>(null);
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState<string | null>(null);
 
-      try {
-        const res = await fetch(`https://api.microlink.io/?url=${encodeURIComponent(TodaysMint)}`);
-        const data = await res.json();
-        if (data.status === 'success') {
-          setMetadata({
-            title: data.data.title,
-            description: data.data.description,
-            image: data.data.image?.url || data.data.image, // ✅ Handle both object and string cases
-            url: data.data.url,
-          });
-        } else {
-          setError('Failed to fetch metadata. Please check the URL.');
-        }
-      }  finally {
-        setLoading(false);
-      }
-    };
+
+  //   const fetchMetadata = async (tokenId:number) => {
+  //     setLoading(true);
+  //     setError(null);
+  //     setMetadata(null);
+
+  //     try {
+  //       const res = await fetch(`https://api.microlink.io/?url=${encodeURIComponent}`);
+  //       const data = await res.json();
+  //       if (data.status === 'success') {
+  //         setMetadata({
+  //           title: data.data.title,
+  //           description: data.data.description,
+  //           image: data.data.image?.url || data.data.image, // ✅ Handle both object and string cases
+  //           url: data.data.url,
+  //         });
+  //       } else {
+  //         setError('Failed to fetch metadata. Please check the URL.');
+  //       }
+  //     }  finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
     
  
@@ -89,9 +79,9 @@ export default function DemoN(
   // Declare a variable outside so it can be updated
   const today = getFormattedDate();
 
-  const cast = useCallback((today: string, count: number) => {
+  const cast = useCallback((text: string, url: string) => {
     try {
-       fetch(`/api/cast?today=${today}&count=${count}`);
+       fetch(`/api/cast?today=${text}&count=${url}`);
   
     } catch (err) {
       console.error("Error sendinding DC from warpcast", err);
@@ -139,10 +129,15 @@ const tip = useCallback((allo: string, hash: string) => {
 }, []);
 
 useEffect(() => {
-  fetchMetadata();
+
     fetchReply()
 
 }, []);
+// useEffect(() => {
+//   fetchMetadata(tokenId);
+
+
+// }, [tokenId]);
 
 const sendDC = `https://warpcast.com/~/inbox/create/268438?text=Hey! `;
 
@@ -165,6 +160,7 @@ if (context?.user.fid === 268438 || context?.user.fid === 431)
 
     if (!context?.user.fid)
       return (
+   
         <div className="flex items-center justify-center h-screen bg-gray-100">
       <div className="text-center p-8 bg-white shadow-lg rounded-xl">
         <h1 className="text-4xl font-bold text-red-600">Access Denied</h1>
@@ -214,20 +210,83 @@ if (context?.user.fid === 268438 || context?.user.fid === 431)
   }
 
   function Allowed( ) {
+    const count: number = new Date().getDate()+ 502
+    const [isCasted, setIsCasted] = useState(false);
+    const [isTipped, setIsTipped] = useState(false);
+  
+    const [tokenId, setTokenId] = useState(count);
+    const text: string= `${today}\nLocation: \nType: Video\nTime: Late\n\n.\n\n1 of 1\n0.00321e`
+
+    const [castText, setCastText] = useState(text);
+    const highlight = `https://highlight.xyz/mint/base:0x3595491A2ecD658Ab249AcBd15F649b1D2B7cb3a:9c9d6dd7e82d0217d6aee15dbabc223b/t/${tokenId}`; // 🔗 Replace with your desired URL
+   const openSea=`https://opensea.io/assets/base/0x3595491a2ecd658ab249acbd15f649b1d2b7cb3a/${tokenId}`
+    const handleCast = () => {
+      cast(encodedText, url);
+      setIsCasted(true);
+    };
+    const encodedText = encodeURIComponent(castText);
+    const [url, setUrl] = useState(highlight);
+    const handleTip = () => {
+      tip(typedAllo, typedHash);
+      setIsTipped(true);
+    };
     return (
 <div className="flex flex-col items-center justify-center min-h-screen bg-gray-800 ">
 <h1 className="text-2xl font-bold mb-4 text-center text-white">Today&apos;s Mint</h1>
 
-<div className="p-3  mx-3 max-w-xl mx-auto shadow-lg rounded-2xl bg-[#20142c] text-white">
+<div className="p-5 mx-3 max-w-xl mx-auto shadow-lg rounded-2xl bg-[#20142c]">
+<Label className="text-xs font-semibold text-gray-500 mb-1" htmlFor="id">Mint Id</Label>
+<Input
+          id="id"
+          type="number"
+          value={tokenId}
+          className="mb-2 text-black"
+          onChange={(e) => { 
+            setTokenId(Number(e.target.value));
+          }}
+          
+          step="1"
+          min="1"
+        />
+<Label className="text-xs font-semibold text-gray-500 mb-1" htmlFor="castText">Cast Text</Label>
 
-<p className="text-sm font-bold">{today}</p>
-<p className="text-sm font-bold mb-4">Type: Video</p>
-<p className="text-sm font-bold">1 of 1</p>
-<p className="text-sm font-bold mb-4">0.00321e</p>
+<textarea
+  id="castText"
+  defaultValue={castText} // Allows free editing
+  onChange={(e) => setCastText(e.target.value)}
+  className="mb-2 text-black h-60 w-full p-2 border rounded"
+  style={{ whiteSpace: "pre-wrap" }}
+/>
+
+<div className="p-4 rounded-2xl shadow-lg max-w-sm mx-auto bg-white text-black">
+      <div className="space-y-2">
+        <label className="flex items-center space-x-2">
+          <input
+            type="radio"
+            value={highlight}
+            checked={url === highlight}
+            onChange={(e) => setUrl(e.target.value)}
+            className="accent-blue-500"
+          />
+          <span>Highlight</span>
+        </label>
+        <label className="flex items-center space-x-2">
+          <input
+            type="radio"
+            value={openSea}
+            checked={url === openSea}
+            onChange={(e) => setUrl(e.target.value)}
+            className="accent-blue-500"
+          />
+          <span>OpenSea</span>
+        </label>
+      </div>
+
+    </div>
 
 
 
-      {loading && <p className="text-center text-gray-500">Fetching metadata...</p>}
+      {/* {loading && <p className="text-center text-gray-500">Fetching metadata...</p>}
 
       {error && <p className="text-center text-red-500">{error}</p>}
 
@@ -251,7 +310,7 @@ if (context?.user.fid === 268438 || context?.user.fid === 431)
             Verify
           </a>
         </div>
-      )}
+      )} */}
     </div>
     <div className="flex flex-row w-full p-3">
     <div
