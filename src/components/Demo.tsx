@@ -139,7 +139,7 @@ useEffect(() => {
 
 // }, [tokenId]);
 
-const sendDC = `https://warpcast.com/~/inbox/create/268438?text=Hey! `;
+// const sendDC = `https://warpcast.com/~/inbox/create/268438?text=Hey! `;
 
 const typedAllo=replyData?.allowance || "1";
 const typedHash=replyData?.hash || "0xe5dd593ceddcad16f031c7f7cf29ebc1599dfa35";
@@ -220,6 +220,7 @@ if (context?.user.fid === 268438 || context?.user.fid === 431)
     const [castText, setCastText] = useState(text);
     const highlight = `https://highlight.xyz/mint/base:0x3595491A2ecD658Ab249AcBd15F649b1D2B7cb3a:9c9d6dd7e82d0217d6aee15dbabc223b/t/${tokenId}`; // 🔗 Replace with your desired URL
    const openSea=`https://opensea.io/assets/base/0x3595491a2ecd658ab249acbd15f649b1d2b7cb3a/${tokenId}`
+
     const handleCast = () => {
       cast(encodedText, url);
       setIsCasted(true);
@@ -230,6 +231,8 @@ if (context?.user.fid === 268438 || context?.user.fid === 431)
       tip(typedAllo, typedHash);
       setIsTipped(true);
     };
+    const shareUrlData = `https://warpcast.com/~/compose?text=${encodedText}&embeds[]=${url}`;
+
     return (
 <div className="flex flex-col items-center justify-center min-h-screen bg-gray-800 ">
 <h1 className="text-2xl font-bold mb-4 text-center text-white">Today&apos;s Mint</h1>
@@ -330,7 +333,7 @@ if (context?.user.fid === 268438 || context?.user.fid === 431)
       {isTipped ? "Tipped" : "Tip"}
     </div>}
 </div>
-<div
+{/* <div
   className="bg-[#8B5CF6] p-3 text-base font-semibold cursor-pointer text-white flex items-center justify-center gap-2"
   onClick={() => sdk.actions.openUrl(sendDC)}
 >
@@ -349,6 +352,12 @@ if (context?.user.fid === 268438 || context?.user.fid === 431)
     />
   </svg>
   Send DC
+</div> */}
+<div
+  className="bg-[#8B5CF6] p-3 text-base font-semibold cursor-pointer text-white flex items-center justify-center gap-2"
+  onClick={() => sdk.actions.openUrl(shareUrlData)}
+>
+Cast Manually
 </div>
 </div>
     );
