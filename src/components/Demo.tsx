@@ -190,7 +190,7 @@ if (context?.user.fid === 268438 || context?.user.fid === 431)
 
     return (
    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 p-4">
-<h1 className="text-3xl font-bold text-white mb-6">Today's Mint</h1>
+<h1 className="text-3xl font-bold text-white mb-6">Today&apos;s Mint</h1>
 
 <div className="p-6 max-w-lg w-full bg-[#2a1e3f] shadow-xl rounded-2xl">
   <div className="mb-4">
